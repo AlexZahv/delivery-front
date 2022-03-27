@@ -8,6 +8,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {AuthService} from "./services/auth.service";
 import {SharedModule} from "../shared/shared.module";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {TokenInterceptorService} from "./token-interceptor.service";
 
 const routes: Routes = [
   {path: "", component: LoginComponent}
@@ -28,7 +30,12 @@ const routes: Routes = [
     SharedModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
   ]
 })
 
